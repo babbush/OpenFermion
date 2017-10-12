@@ -121,6 +121,73 @@ def commutator(operator_a, operator_b):
     return result
 
 
+def bch_expand(x, y, order):
+    """Compute log[e^x e^y] using the Baker-Campbell-Hausdorff formula
+
+    Note that eventually we should optimize the performance of this code
+    and also implement the form derived by Dynkin in 1947 which would enable
+    us to compute the series to arbitrary order without hard coding expression.
+
+    Args:
+        x: An operator for which multiplication and addition are supported.
+            For instance, a QubitOperator, FermionOperator or numpy array.
+        y: The same type as x.
+        order(int): The order to truncate the BCH expansions. Currently
+            function goes up to only third order.
+
+    Returns:
+        z: The truncated BCH operator.
+
+    Raises:
+        ValueError: operator x is not same type as operator y.
+        ValueError: invalid order parameter.
+        ValueError: order exceeds maximum order supported.
+    """
+    # Initialize.
+    max_order = 4
+    if type(x) != type(y):
+        raise ValueError('Operator x is not same type as operator y.')
+    elif (not isinstance(order, int)) or order < 0:
+        raise ValueError('Invalid order parameter.')
+
+    # Zeroth order.
+    z = x + y
+
+    # First order.
+    if order > 0:
+        z += commutator(x, y) / 2.
+
+    # Second order.
+    if order > 1:
+        z += commutator(x, commutator(x, y)) / 12.
+        z += commutator(y, commutator(y, x)) / 12.
+
+    # Third order.
+    if order > 2:
+        z -= commutator(y, commutator(x, commutator(x, y))) / 24.
+
+    # Fourth order.
+    if order > 3:
+        z -= commutator(
+            y, commutator(y, commutator(y, commutator(y, x)))) / 720.
+        z -= commutator(
+            x, commutator(x, commutator(x, commutator(x, y)))) / 720.
+        z += commutator(
+            x, commutator(y, commutator(y, commutator(y, x)))) / 360.
+        z += commutator(
+            y, commutator(x, commutator(x, commutator(x, y)))) / 360.
+        z += commutator(
+            y, commutator(x, commutator(y, commutator(x, y)))) / 120.
+        z += commutator(
+            x, commutator(y, commutator(x, commutator(y, x)))) / 120.
+
+    # Return.
+    if order > max_order:
+        raise ValueError('Order exceeds maximum order supported.')
+    else:
+        return z
+
+
 def save_operator(operator, file_name=None, data_directory=None):
     """Save FermionOperator or QubitOperator to file.
 
