@@ -81,16 +81,18 @@ Authors
 `Jarrod McClean <http://jarrodmcclean.com>`__ (Google),
 `Ian Kivlichan <http://aspuru.chem.harvard.edu/ian-kivlichan/>`__ (Harvard),
 Damian Steiger (ETH Zurich),
-Wei Sun (Google),
+Dave Bacon (Google),
+Yudong Cao (Harvard),
 Craig Gidney (Google),
-Thomas Haner (ETH Zurich),
-Hannah Sim (Harvard),
-Yudong Cao (Harvard)
+Thomas Haener (ETH Zurich),
 Vojtech Havlicek (Oxford),
-Kanav Setia (Dartmouth),
+Zhang Jiang (NASA),
+Matthew Neeley (Google),
 Nicholas Rubin (Rigetti),
-Matthew Neeley (Google) and
-Dave Bacon (Google).
+Kanav Setia (Dartmouth),
+Hannah Sim (Harvard),
+Wei Sun (Google) and
+Kevin Sung (University of Michigan).
 
 Questions?
 ----------
